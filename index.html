@@ -55,6 +55,10 @@
 
 
     <script>
+
+
+      var okayRegex = /\bo*k+(a+y+)?\b\s*/i;
+
       $("#suggestion1").click(function() {
         socket.emit('chat message', {text: $('#m').val(), animation: "1"});
         $('#m').val('');
@@ -109,11 +113,15 @@
           console.log("input field changed");
           elem.data('oldVal', elem.val());
 
+          if (elem.val().search(okayRegex) != -1) {
+            // update the suggestion texts with the proposed message
+            $("#suggestions span").each(function() {
+              $(this).text(elem.val());
+            });
 
-          if (elem.val() == "Okay") {
             $("#suggestions").show();
 
-            console.log("Okay");
+            console.log(elem.val());
             okayAnimation();
           } else {
             // no suggestion, hide the box 
@@ -129,12 +137,13 @@ function okayAnimation() {
   $('.text1').addClass("bounce animated infinite");
   $('.text2').addClass("rubberBand animated infinite");
 
-  $('.text3').textillate({
-    loop: 'true',
-    minDisplayTime: 700,
-    in: { effect: 'fadeIn', sync: 'true'},
-    out: { effect: 'fadeOut', sync: 'true'}
-  });
+  $('.text3').addClass("rollIn animated infinite");
+  // $('.text3').textillate({
+  //   loop: 'true',
+  //   minDisplayTime: 700,
+  //   in: { effect: 'fadeIn', sync: 'true'},
+  //   out: { effect: 'fadeOut', sync: 'true'}
+  // });
 
   $('.text4').addClass("zoomIn animated infinite");
 }
