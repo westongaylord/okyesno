@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+<<<<<<< HEAD
   <head>
     <title>Socket.IO chat</title>
     <style>
@@ -26,10 +27,279 @@
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
+=======
+<head>
+  <title>Kinetic Chat</title>
+
+
+  <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
+  <link rel="stylesheet" type="text/css" href="http://anijs.github.io/lib/anicollection/anicollection.css"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font: 16px Helvetica, Arial; }
+    form { background: #ddd; padding: 2px; position: fixed; bottom: 0; width: 100%; }
+    form input { border: 0; padding: 10px; width: 90%; font-size:16px; height:44px;}
+    form button { color: white; font-weight: bold; width: 10%; background: rgb(0, 174, 226); border: none; padding: 10px; font-size: 16px; height: 44px;}
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 20px 30px; height: 60px; }
+    #messages li:nth-child(odd) { background: rgb(104, 245, 181); }
+
+
+    #suggestions {
+      position: fixed;
+      bottom: 47px;
+      width: 100%;
+    }
+
+    #suggestions li {
+      float:left;
+      list-style: none;
+      border: 3px #ddd solid;
+      padding: 10px 30px;
+      min-width: 12%;
+      height: 44px;
+    }
+
+  span {
+    display: inline-block;
+  }
+  
+
+  /* ---------------- ANIMATIONS ---------------------- */
+
+
+/*
+==============================================
+base code
+==============================================
+*/
+
+  .slow5{
+    -webkit-animation-duration: 5s;
+    -webkit-animation-fill-mode: both;
+  }
+
+  .slow2 {
+    -webkit-animation-duration: 2s;
+    -webkit-animation-fill-mode: both;
+  }
+
+  .infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  }
+
+  .hinge {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+  }
+
+
+/*
+==============================================
+rattle
+==============================================
+*/
+.rattle {
+  -webkit-animation: rattle 0.08s infinite;
+}
+
+  @-webkit-keyframes rattle {
+   0% {
+    -webkit-transform: translateX(-1px); 
+    letter-spacing: -0.012em;
+  }
+  
+  25% {
+    -webkit-transform: translateY(-1px) rotate(-3deg);
+    font-size: 18px;
+  }
+  
+  50% {
+    -webkit-transform: translateX(1px);
+  }
+
+  100% {
+   -webkit-transform: translateY(-1px)  rotate(3deg);
+ }
+}
+
+
+/*
+==============================================
+stretchRight
+==============================================
+*/
+.stretchRight{
+  animation-name: stretchRight;
+  -webkit-animation-name: stretchRight; 
+
+  animation-timing-function: ease-out;  
+  -webkit-animation-timing-function: ease-out;  
+
+  transform-origin: 0% 0%;
+  -ms-transform-origin: 0% 0%;
+  -webkit-transform-origin: 0% 0%;    
+}
+
+
+@-webkit-keyframes stretchRight {
+  0% {
+    -webkit-transform: scaleX(1);
+  }
+  25% {
+    -webkit-transform: scaleX(1.75);
+  }
+  50% {
+    -webkit-transform: scaleX(2);
+  }
+  60% {
+    -webkit-transform: scaleX(2.5);
+  }
+  80% {
+    -webkit-transform: scaleX(2);
+  }
+  100% {
+    -webkit-transform: scaleX(1.5);
+  } 
+
+}
+
+</style>
+
+</head>
+<body OnLoad="document.form.input.focus();">
+  <ul id="messages"></ul>
+  <ul id="suggestions">
+    <li id="suggestion1"><span class="text1"> Okay</li>
+    <li id="suggestion2"><span class="text2"> Okay</li>
+    <li id="suggestion3"><span class="text3"> Okay</li>
+    <li id="suggestion4"><span class="text4"> Okay</li>
+    <li id="suggestion5"><span class="text5"> Okay</li>
+    <li id="suggestion6"><span class="text6"> Okay</li>
+    <li id="suggestion7"><span class="text7"> Okay</li>
+  </ul>
+  <form action="" name="form">
+    <input name="input" id="m" type="text" class="text" autocomplete="off" /><button>Send</button>
+  </form>
+
+
+
+  <script>
+
+    var okayRegex = /\bo*k+(a+y+)?\b\s*/i;
+
+    $("#suggestion1").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "1"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion2").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "2"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion3").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "3"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion4").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "4"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion5").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "5"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion6").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "6"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+    $("#suggestion7").click(function() {
+      socket.emit('chat message', {text: $('#m').val(), animation: "7"});
+      $('#m').val('');
+      $("#suggestions").hide();
+    });
+
+
+    $("#suggestions").hide();
+    var socket = io();
+    $('form').submit(function(){
+      socket.emit('chat message', {text: $('#m').val(), animation: "0"});
+      $('#m').val('');
+      return false;
+    });
+
+    socket.on('chat message', function(msg){
+      console.log(msg);
+      var newLine = $('<li>').html('<span class="text' + msg.animation + '">' + msg.text + '</span>');
+      $('#messages').append(newLine);
+      okayAnimation();
+    });
+
+
+    $('#m').each(function() {
+     var elem = $(this);
+
+     // Save current value of element
+     elem.data('oldVal', elem.val());
+
+     // Look for changes in the value
+     elem.bind("propertychange change click keyup input paste", function(event){
+        // If value has changed...
+        if (elem.data('oldVal') != elem.val()) {
+          // Updated stored value
+          console.log("input field changed");
+          elem.data('oldVal', elem.val());
+
+          if (elem.val().search(okayRegex) != -1) {
+            // update the suggestion texts with the proposed message
+            $("#suggestions span").each(function() {
+              $(this).text(elem.val());
+            });
+
+            $("#suggestions").show();
+
+            console.log(elem.val());
+            okayAnimation();
+          } else {
+            // no suggestion, hide the box 
+            $("#suggestions").hide();
+
+          }
+        }
+>>>>>>> FETCH_HEAD
       });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-    </script>
-  </body>
+   });
+
+
+    function okayAnimation() {
+      $('.text1').addClass("bounce animated infinite");
+      $('.text2').addClass("rubberBand animated slow2 infinite");
+
+      $('.text3').addClass("flash animated infinite");
+
+      $('.text4').addClass("flash animated slow5 infinite");
+      $('.text5').addClass("rattle animated infinite");
+      $('.text6').addClass("fadeInLeft slow2 animated infinite");
+      $('.text7').addClass("stretchRight slow5 animated infinite");
+}
+
+</script>
+</body>
 </html>
