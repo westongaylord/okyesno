@@ -1,0 +1,12 @@
+class Lexicon {
+	public:
+		Lexicon();
+		bool containsPrefix(string prefix);
+		bool contains(string word);
+		void add(string word);
+		void printAll();
+		void unionWith(Lexicon& other);
+	
+
+}
+	
