@@ -218,58 +218,58 @@
           $('#m').val('');
           $("#suggestions").hide();
         }
+      };
+
+    // Updated stored value
+    console.log("input field changed");
+    elem.data('oldVal', elem.val());
+
+    if (elem.val().search(okayRegex) != -1) {
+      currentSuggestion = "okay";
+      // update the suggestion texts with the proposed message
+      $(".text").each(function() {
+        $(this).text(elem.val());
       });
-   });
-        // Updated stored value
-        console.log("input field changed");
-        elem.data('oldVal', elem.val());
 
-        if (elem.val().search(okayRegex) != -1) {
-          currentSuggestion = "okay";
-          // update the suggestion texts with the proposed message
-          $(".text").each(function() {
-            $(this).text(elem.val());
-          });
+      $("#suggestions").show();
 
-          $("#suggestions").show();
+      console.log(elem.val());
+      updateSuggestions();
+      animation("okay");
 
-          console.log(elem.val());
-          updateSuggestions();
-          animation("okay");
-
-        } else if (elem.val().search(yesRegex) != -1) {
-          currentSuggestion = "yes";
-        // update the suggestion texts with the proposed message
-        $(".text").each(function() {
-          $(this).text(elem.val());
-        });
-
-        $("#suggestions").show();
-
-        console.log(elem.val());
-        updateSuggestions();
-        animation("yes");
-
-        } else if (elem.val().search(noRegex) != -1) {
-          currentSuggestion = "no";
-        // update the suggestion texts with the proposed message
-        $(".text").each(function() {
-          $(this).text(elem.val());
-        });
-
-        $("#suggestions").show();
-
-        console.log(elem.val());
-        updateSuggestions();
-        animation("no");
-      } else {
-          // no suggestion, hide the box 
-          $("#suggestions").hide();
-          currentSuggestion = null;
-        }
-      }
+    } else if (elem.val().search(yesRegex) != -1) {
+      currentSuggestion = "yes";
+    // update the suggestion texts with the proposed message
+    $(".text").each(function() {
+      $(this).text(elem.val());
     });
+
+    $("#suggestions").show();
+
+    console.log(elem.val());
+    updateSuggestions();
+    animation("yes");
+
+  } else if (elem.val().search(noRegex) != -1) {
+    currentSuggestion = "no";
+    // update the suggestion texts with the proposed message
+    $(".text").each(function() {
+      $(this).text(elem.val());
+    });
+
+    $("#suggestions").show();
+
+    console.log(elem.val());
+    updateSuggestions();
+    animation("no");
+  } else {
+    // no suggestion, hide the box 
+    $("#suggestions").hide();
+    currentSuggestion = null;
+  }
 });
+});
+
 
 
 function updateSuggestions() {
