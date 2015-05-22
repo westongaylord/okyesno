@@ -68,6 +68,16 @@
       -webkit-animation-fill-mode: both;
     }
 
+    .slow3 {
+      -webkit-animation-duration: 4s;
+      -webkit-animation-fill-mode: both;
+    }
+
+    .fast1 {
+      -webkit-animation-duration: 0.6s;
+      -webkit-animation-fill-mode: both;
+    }
+
     .infinite {
       -webkit-animation-iteration-count: infinite;
       animation-iteration-count: infinite;
@@ -313,42 +323,43 @@ function animation(word) {
   } else if (word == "yes") {
 
     $('#text1').addClass("bounce animated infinite");
-    $('#text2').addClass("rubberBand animated slow2 infinite");
-    $('#text3').addClass("flash animated infinite");
-    $('#text4').addClass("flash animated slow5 infinite");
-    $('#text5').addClass("stretchRight slow5 animated infinite");
-    $('#text6').addClass("fadeInLeft slow2 animated infinite");
-    $('#text7').addClass("rattle animated infinite");
-    $('#text8').addClass("zoomInDown animated slow2 infinite");
+    $('#text2').addClass("rattle animated infinite");
+    $('#text3').addClass("shake fast1 animated infinite");
+    $('#text4').addClass("flash animated infinite");
+    $('#text5').addClass("tada animated infinite");
+    $('#text6').addClass("slideInUp animated infinite");
+    $('#text7').addClass("fadeInLeft slow2 animated infinite");
+    $('#text8').addClass("stretchRight slow5 animated infinite");
 
     $('.yestext1').addClass("bounce animated infinite");
-    $('.yestext2').addClass("rubberBand animated slow2 infinite");
-    $('.yestext3').addClass("flash animated infinite");
-    $('.yestext4').addClass("flash animated slow5 infinite");
-    $('.yestext5').addClass("stretchRight slow5 animated infinite");
-    $('.yestext6').addClass("fadeInLeft slow2 animated infinite");
-    $('.yestext7').addClass("rattle animated infinite");
-    $('.yestext8').addClass("zoomInDown animated slow2 infinite");
+    $('.yestext2').addClass("rattle animated infinite");
+    $('.yestext3').addClass("shake fast1 animated infinite");
+    $('.yestext4').addClass("flash animated infinite");
+    $('.yestext5').addClass("tada animated infinite");
+    $('.yestext6').addClass("slideInUp animated infinite");
+    $('.yestext7').addClass("fadeInLeft slow2 animated infinite");
+    $('.yestext8').addClass("stretchRight slow5 animated infinite");
+
 
   } else if (word == "no") {
 
     $('#text1').addClass("bounce animated infinite");
-    $('#text2').addClass("rubberBand animated slow2 infinite");
-    $('#text3').addClass("flash animated infinite");
-    $('#text4').addClass("flash animated slow5 infinite");
-    $('#text5').addClass("stretchRight slow5 animated infinite");
-    $('#text6').addClass("fadeInLeft slow2 animated infinite");
-    $('#text7').addClass("rattle animated infinite");
-    $('#text8').addClass("zoomInDown animated slow2 infinite");
+    $('#text2').addClass("rattle animated infinite");
+    $('#text3').addClass("shake fast1 animated infinite");
+    $('#text4').addClass("shake slow3 animated infinite");
+    $('#text5').addClass("flash animated infinite");
+    $('#text6').addClass("zoomIn slow3 animated infinite");
+    $('#text7').addClass("fadeInLeft slow2 animated infinite");
+    $('#text8').addClass("stretchRight slow5 animated infinite");
 
     $('.notext1').addClass("bounce animated infinite");
-    $('.notext2').addClass("rubberBand animated slow2 infinite");
-    $('.notext3').addClass("flash animated infinite");
-    $('.notext4').addClass("flash animated slow5 infinite");
-    $('.notext5').addClass("stretchRight slow5 animated infinite");
-    $('.notext6').addClass("fadeInLeft slow2 animated infinite");
-    $('.notext7').addClass("rattle animated infinite");
-    $('.notext8').addClass("zoomInDown animated slow2 infinite");
+    $('.notext2').addClass("rattle animated infinite");
+    $('.notext3').addClass("shake fast1 animated infinite");
+    $('.notext4').addClass("shake slow3 infinite");
+    $('.notext5').addClass("flash animated infinite");
+    $('.notext6').addClass("zoomIn slow3 animated infinite");
+    $('.notext7').addClass("fadeInLeft slow2 animated infinite");
+    $('.notext8').addClass("stretchRight slow5 animated infinite");
   }
 }
 
