@@ -1,3 +1,5 @@
+var WebSocketServer = require("ws").Server; 
+
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -60,3 +62,20 @@ http.listen(port, function () {
 // usernames which are currently connected to the chat
 var usernames = {};
 var numUsers = 0;
+
+
+var wss = new WebSocketServer({server: http})
+console.log("websocket server created")
+
+wss.on("connection", function(ws) {
+  var id = setInterval(function() {
+    ws.send(JSON.stringify(new Date()), function() {  })
+  }, 1000)
+
+  console.log("websocket connection open")
+
+  ws.on("close", function() {
+    console.log("websocket connection close")
+    clearInterval(id)
+  })
+})
