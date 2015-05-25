@@ -234,7 +234,7 @@
 
 socket.on('chat message', function(msg){
 	if (lastUserId == msg.user) {
-		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
+		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">&nbsp;&nbsp;&nbsp;' + msg.text + '</span></li>');
 	} else {
 		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
 	}
