@@ -140,10 +140,6 @@
 
     	animation-timing-function: linear;  
     	-webkit-animation-timing-function: linear;  
-
-    	transform-origin: 0% 0%;
-    	-ms-transform-origin: 0% 0%;
-    	-webkit-transform-origin: 0% 0%;    
     }
 
 
@@ -240,7 +236,7 @@ socket.on('chat message', function(msg){
 	if (lastUserId == msg.user) {
 		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
 	} else {
-		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
+		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
 	}
 	$('#messages').append(newLine);
 	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
@@ -274,7 +270,6 @@ socket.on('chat message', function(msg){
       if (elem.data('oldVal') != elem.val()) {
       	if (currentSuggestion != null && elem.val().search(/[1-8]/) != -1) {
       		var digit = elem.val().slice(-1);
-      		console.log("user");
       		socket.emit('chat message', {user: userId, text: elem.val().substring(0, elem.val().length - 1), animation: digit, word: currentSuggestion});
       		$('#m').val('');
       		$("#suggestions").hide();
@@ -293,7 +288,6 @@ socket.on('chat message', function(msg){
 
       $("#suggestions").show();
 
-      console.log(elem.val());
       updateSuggestions();
       animation("okay");
 
@@ -305,8 +299,6 @@ socket.on('chat message', function(msg){
     });
 
     $("#suggestions").show();
-
-    console.log(elem.val());
     updateSuggestions();
     animation("yes");
 
@@ -318,8 +310,6 @@ socket.on('chat message', function(msg){
     });
 
     $("#suggestions").show();
-
-    console.log(elem.val());
     updateSuggestions();
     animation("no");
   } else {
