@@ -210,10 +210,15 @@ $(window).on("beforeunload", function() {
   var connected;
   var colorArray = [
   "rgb(255,255,255)",
-  "rgb(102,255,178)",
-  "rgb(255,178,102)",
-  "rgb(102,178,255)",
-  "rgb(255,102,102)",
+  "rgb(153,255,204)",
+  "rgb(153,255,255)",
+  "rgb(255,204,153)",
+  "rgb(204,153,255)",
+  "rgb(255,153,153)",
+  "rgb(153,204,255)",
+  "rgb(255,153,255)",
+  "rgb(153,255,153)",
+  "rgb(224,224,224)",
   ]
   var socket = io();
 
@@ -237,9 +242,9 @@ $(window).on("beforeunload", function() {
 
 socket.on('chat message', function(msg){
 	if (lastUserId == msg.user) {
-		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">&nbsp;&nbsp;&nbsp;' + msg.text + '</span></li>');
+		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user % 10] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">&nbsp;&nbsp;&nbsp;' + msg.text + '</span></li>');
 	} else {
-		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
+		newLine = $('<li style="background:' + colorArray[msg.user % 10] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
 	}
 	$('#messages').append(newLine);
 	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
