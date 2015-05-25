@@ -13,7 +13,6 @@ io.on('connection', function(socket){
 	var addedUser = false; 
 
 	socket.on('chat message', function(msg){
-		console.log(msg);
 		io.emit('chat message', msg);
 	});
 

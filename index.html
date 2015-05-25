@@ -198,6 +198,9 @@
   console.log(JSON.parse(event.data));
 };
 
+$(window).on("beforeunload", function() { 
+	socket.emit('disconnect');
+})
 
 
   // --------------- SOCKET MESSAGE SENDING ------------------
