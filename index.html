@@ -178,8 +178,6 @@
 		<li id="suggestion4"><span class="number">4</span><span class="text" id="text4"> Okay</li>
 		<li id="suggestion5"><span class="number">5</span><span class="text" id="text5"> Okay</li>
 		<li id="suggestion6"><span class="number">6</span><span class="text" id="text6"> Okay</li>
-		<li id="suggestion7"><span class="number">7</span><span class="text" id="text7"> Okay</li>
-		<li id="suggestion8"><span class="number">8</span><span class="text" id="text8"> Okay</li>
 	</ul>
 	<form action="" name="form" id="form">
 		<input name="input" id="m" type="text" class="text" autocomplete="off" /><button>Send</button>
@@ -355,22 +353,18 @@ function animation(word) {
 
 	if (word == "okay") {
 		$('#text1').addClass("bounce animated infinite");
+    $('#text2').addClass("rattle animated infinite");
 		$('#text2').addClass("rubberBand animated slow2 infinite");
 		$('#text3').addClass("flash animated infinite");
 		$('#text4').addClass("flash animated slow5 infinite");
 		$('#text5').addClass("stretchRight slow5 animated infinite");
-		$('#text6').addClass("fadeInLeft slow2 animated infinite");
-		$('#text7').addClass("zoomInDown animated slow2 infinite");
-		$('#text8').addClass("rattle animated infinite");
 
 		$('.okaytext1').addClass("bounce animated infinite");
+    $('.okaytext2').addClass("rattle animated infinite");
 		$('.okaytext2').addClass("rubberBand animated slow2 infinite");
 		$('.okaytext3').addClass("flash animated infinite");
 		$('.okaytext4').addClass("flash animated slow5 infinite");
 		$('.okaytext5').addClass("stretchRight slow5 animated infinite");
-		$('.okaytext6').addClass("fadeInLeft slow2 animated infinite");
-		$('.okaytext7').addClass("zoomInDown animated slow2 infinite");
-		$('.okaytext8').addClass("rattle animated infinite");
 
 	} else if (word == "yes") {
 
@@ -379,8 +373,6 @@ function animation(word) {
 		$('#text3').addClass("shake fast1 animated infinite");
 		$('#text4').addClass("flash animated infinite");
 		$('#text5').addClass("tada animated infinite");
-		$('#text6').addClass("slideInUp animated infinite");
-		$('#text7').addClass("fadeInLeft slow2 animated infinite");
 		$('#text8').addClass("stretchRight slow5 animated infinite");
 
 		$('.yestext1').addClass("bounce animated infinite");
@@ -388,8 +380,6 @@ function animation(word) {
 		$('.yestext3').addClass("shake fast1 animated infinite");
 		$('.yestext4').addClass("flash animated infinite");
 		$('.yestext5').addClass("tada animated infinite");
-		$('.yestext6').addClass("slideInUp animated infinite");
-		$('.yestext7').addClass("fadeInLeft slow2 animated infinite");
 		$('.yestext8').addClass("stretchRight slow5 animated infinite");
 
 
@@ -400,8 +390,6 @@ function animation(word) {
 		$('#text3').addClass("shake fast1 animated infinite");
 		$('#text4').addClass("shake slow3 animated infinite");
 		$('#text5').addClass("flash animated infinite");
-		$('#text6').addClass("zoomIn slow3 animated infinite");
-		$('#text7').addClass("fadeInLeft slow2 animated infinite");
 		$('#text8').addClass("stretchRight slow5 animated infinite");
 
 		$('.notext1').addClass("bounce animated infinite");
@@ -409,8 +397,6 @@ function animation(word) {
 		$('.notext3').addClass("shake fast1 animated infinite");
 		$('.notext4').addClass("shake slow3 infinite");
 		$('.notext5').addClass("flash animated infinite");
-		$('.notext6').addClass("zoomIn slow3 animated infinite");
-		$('.notext7').addClass("fadeInLeft slow2 animated infinite");
 		$('.notext8').addClass("stretchRight slow5 animated infinite");
 	}
 }
