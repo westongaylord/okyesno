@@ -5,11 +5,11 @@
 
 
 	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
 	<script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
-	<link rel="stylesheet" type="text/css" href="http://anijs.github.io/lib/anicollection/anicollection.css"></script>
+	<link rel="stylesheet" type="text/css" href="https://anijs.github.io/lib/anicollection/anicollection.css"></script>
 
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
@@ -140,10 +140,6 @@
 
     	animation-timing-function: linear;  
     	-webkit-animation-timing-function: linear;  
-
-    	transform-origin: 0% 0%;
-    	-ms-transform-origin: 0% 0%;
-    	-webkit-transform-origin: 0% 0%;    
     }
 
 
@@ -200,6 +196,9 @@
   console.log(JSON.parse(event.data));
 };
 
+$(window).on("beforeunload", function() { 
+	socket.emit('disconnect');
+})
 
 
   // --------------- SOCKET MESSAGE SENDING ------------------
@@ -209,10 +208,15 @@
   var connected;
   var colorArray = [
   "rgb(255,255,255)",
-  "rgb(102,255,178)",
-  "rgb(255,178,102)",
-  "rgb(102,178,255)",
-  "rgb(255,102,102)",
+  "rgb(153,255,204)",
+  "rgb(153,255,255)",
+  "rgb(255,204,153)",
+  "rgb(204,153,255)",
+  "rgb(255,153,153)",
+  "rgb(153,204,255)",
+  "rgb(255,153,255)",
+  "rgb(153,255,153)",
+  "rgb(224,224,224)",
   ]
   var socket = io();
 
@@ -236,9 +240,9 @@
 
 socket.on('chat message', function(msg){
 	if (lastUserId == msg.user) {
-		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
+		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user % 10] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">&nbsp;&nbsp;&nbsp;' + msg.text + '</span></li>');
 	} else {
-		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
+		newLine = $('<li style="background:' + colorArray[msg.user % 10] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
 	}
 	$('#messages').append(newLine);
 	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
@@ -272,7 +276,6 @@ socket.on('chat message', function(msg){
       if (elem.data('oldVal') != elem.val()) {
       	if (currentSuggestion != null && elem.val().search(/[1-8]/) != -1) {
       		var digit = elem.val().slice(-1);
-      		console.log("user");
       		socket.emit('chat message', {user: userId, text: elem.val().substring(0, elem.val().length - 1), animation: digit, word: currentSuggestion});
       		$('#m').val('');
       		$("#suggestions").hide();
@@ -291,7 +294,6 @@ socket.on('chat message', function(msg){
 
       $("#suggestions").show();
 
-      console.log(elem.val());
       updateSuggestions();
       animation("okay");
 
@@ -303,8 +305,6 @@ socket.on('chat message', function(msg){
     });
 
     $("#suggestions").show();
-
-    console.log(elem.val());
     updateSuggestions();
     animation("yes");
 
@@ -316,8 +316,6 @@ socket.on('chat message', function(msg){
     });
 
     $("#suggestions").show();
-
-    console.log(elem.val());
     updateSuggestions();
     animation("no");
   } else {
