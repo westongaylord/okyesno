@@ -1,55 +1,63 @@
 <!doctype html>
 <html>
 <head>
-  <title>Kinetic Chat</title>
+	<title>Kinetic Chat</title>
 
 
-  <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
-  <script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
-  <script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
-  <link rel="stylesheet" type="text/css" href="http://anijs.github.io/lib/anicollection/anicollection.css"></script>
+	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
+	<link rel="stylesheet" type="text/css" href="http://anijs.github.io/lib/anicollection/anicollection.css"></script>
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font: 16px Helvetica, Arial; }
-    form { background: #ddd; padding: 2px; position: fixed; bottom: 0; width: 100%; }
-    form input { border: 0; padding: 10px; width: 90%; font-size:16px; height:44px;}
-    form button { color: white; font-weight: bold; width: 10%; background: rgb(0, 174, 226); border: none; padding: 10px; font-size: 16px; height: 44px;}
-    #messages { list-style-type: none; margin: 0; padding: 0; }
-    #messages li { padding: 20px 30px; height: 60px; }
-    #messages li:nth-child(odd) { background: rgb(104, 245, 181); }
-
-
-    #suggestions {
-      position: fixed;
-      bottom: 47px;
-      width: 100%;
-    }
-
-    #suggestions li {
-      position: relative;
-      float:left;
-      list-style: none;
-      border: 3px #ddd solid;
-      padding: 10px 10px;
-      min-width: 12.5%;
-      height: 44px;
-    }
-
-    .text {
-      display: inline-block;
-      padding: 0px 0px 0px 30px;
-    }
-
-    .number {
-      font-size:10px;
-      font-weight: bold;
-    }
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font: 16px Helvetica, Arial; }
+		form { background: #ddd; padding: 2px; position: fixed; bottom: 0; width: 100%; height: 50px;}
+		form input { border: 0; padding: 10px; width: 90%; font-size:16px; height:44px;}
+		form button { color: white; font-weight: bold; width: 10%; background: rgb(0, 174, 226); border: none; padding: 10px; font-size: 16px; height: 44px;}
+		#messages { list-style-type: none; margin: 0; padding: 0; overflow:auto;}
+		#messages li { padding: 20px 30px; height: 60px; }
 
 
-    /* ---------------- ANIMATIONS ---------------------- */
+		#suggestions {
+			position: fixed;
+			bottom: 47px;
+			width: 100%;
+		}
+
+		#suggestions li {
+			background: #eee;
+			position: relative;
+			float:left;
+			list-style: none;
+			border: 3px #ddd solid;
+			padding: 10px 10px;
+			min-width: 12.5%;
+			height: 44px;
+		}
+
+		.smallerMsg {
+			padding: 0px 30px 10px 50px !important;
+			height: 40px !important;
+		}
+
+		.text {
+			display: inline-block;
+			padding: 0px 0px 0px 30px;
+		}
+
+		.number {
+			font-size:10px;
+			font-weight: bold;
+		}
+
+		.bold {
+			font-weight: bold;
+		}
+
+		/* ---------------- ANIMATIONS ---------------------- */
 
 
     /*
@@ -59,23 +67,38 @@
     */
 
     .slow5{
-      -webkit-animation-duration: 5s;
-      -webkit-animation-fill-mode: both;
+    	-webkit-animation-duration: 5s;
+    	-webkit-animation-fill-mode: both;
     }
 
     .slow2 {
-      -webkit-animation-duration: 2s;
-      -webkit-animation-fill-mode: both;
+    	-webkit-animation-duration: 2s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .slow3 {
+    	-webkit-animation-duration: 4s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast1 {
+    	-webkit-animation-duration: 0.6s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast2 {
+    	-webkit-animation-duration: 1s;
+    	-webkit-animation-fill-mode: both;
     }
 
     .infinite {
-      -webkit-animation-iteration-count: infinite;
-      animation-iteration-count: infinite;
+    	-webkit-animation-iteration-count: infinite;
+    	animation-iteration-count: infinite;
     }
 
     .hinge {
-      -webkit-animation-duration: 2s;
-      animation-duration: 2s;
+    	-webkit-animation-duration: 2s;
+    	animation-duration: 2s;
     }
 
 
@@ -85,29 +108,26 @@
     ==============================================
     */
     .rattle {
-      -webkit-animation: rattle 0.08s infinite;
+    	-webkit-animation: rattle 0.08s infinite;
     }
 
     @-webkit-keyframes rattle {
-     0% {
-      -webkit-transform: translateX(-1px); 
-      letter-spacing: -0.012em;
+    	0% {
+    		-webkit-transform: translateX(-1px); 
+    	}
+
+    	25% {
+    		-webkit-transform: translateY(-1px) rotate(-3deg);
+    	}
+
+    	50% {
+    		-webkit-transform: translateX(1px);
+    	}
+
+    	100% {
+    		-webkit-transform: translateY(-1px)  rotate(3deg);
+    	}
     }
-
-    25% {
-      -webkit-transform: translateY(-1px) rotate(-3deg);
-      font-size: 18px;
-    }
-
-    50% {
-      -webkit-transform: translateX(1px);
-    }
-
-    100% {
-     -webkit-transform: translateY(-1px)  rotate(3deg);
-   }
- }
-
 
     /*
     ==============================================
@@ -115,37 +135,34 @@
     ==============================================
     */
     .stretchRight{
-      animation-name: stretchRight;
-      -webkit-animation-name: stretchRight; 
+    	animation-name: stretchRight;
+    	-webkit-animation-name: stretchRight; 
 
-      animation-timing-function: ease-out;  
-      -webkit-animation-timing-function: ease-out;  
+    	animation-timing-function: linear;  
+    	-webkit-animation-timing-function: linear;  
 
-      transform-origin: 0% 0%;
-      -ms-transform-origin: 0% 0%;
-      -webkit-transform-origin: 0% 0%;    
+    	transform-origin: 0% 0%;
+    	-ms-transform-origin: 0% 0%;
+    	-webkit-transform-origin: 0% 0%;    
     }
 
 
     @-webkit-keyframes stretchRight {
-      0% {
-        -webkit-transform: scaleX(1);
-      }
-      25% {
-        -webkit-transform: scaleX(1.75);
-      }
-      50% {
-        -webkit-transform: scaleX(2);
-      }
-      60% {
-        -webkit-transform: scaleX(2.5);
-      }
-      80% {
-        -webkit-transform: scaleX(2);
-      }
-      100% {
-        -webkit-transform: scaleX(1.5);
-      } 
+    	0% {
+    		-webkit-transform: scaleX(1);
+    	}
+    	25% {
+    		-webkit-transform: scaleX(1.25);
+    	}
+    	50% {
+    		-webkit-transform: scaleX(1.5);
+    	}
+    	75% {
+    		-webkit-transform: scaleX(1.75);
+    	}
+    	100% {
+    		-webkit-transform: scaleX(2);
+    	} 
 
     }
 
@@ -153,48 +170,87 @@
 
 </head>
 <body OnLoad="document.form.input.focus();">
-  <ul id="messages"></ul>
-  <ul id="suggestions">
-    <li id="suggestion1"><span class="number">1</span><span class="text" id="text1"> Okay</li>
-    <li id="suggestion2"><span class="number">2</span><span class="text" id="text2"> Okay</li>
-    <li id="suggestion3"><span class="number">3</span><span class="text" id="text3"> Okay</li>
-    <li id="suggestion4"><span class="number">4</span><span class="text" id="text4"> Okay</li>
-    <li id="suggestion5"><span class="number">5</span><span class="text" id="text5"> Okay</li>
-    <li id="suggestion6"><span class="number">6</span><span class="text" id="text6"> Okay</li>
-    <li id="suggestion7"><span class="number">7</span><span class="text" id="text7"> Okay</li>
-    <li id="suggestion8"><span class="number">8</span><span class="text" id="text8"> Okay</li>
-  </ul>
-  <form action="" name="form">
-    <input name="input" id="m" type="text" class="text" autocomplete="off" /><button>Send</button>
-  </form>
+	<ul id="messages"></ul>
+	<ul id="suggestions">
+		<li id="suggestion1"><span class="number">1</span><span class="text" id="text1"> Okay</li>
+		<li id="suggestion2"><span class="number">2</span><span class="text" id="text2"> Okay</li>
+		<li id="suggestion3"><span class="number">3</span><span class="text" id="text3"> Okay</li>
+		<li id="suggestion4"><span class="number">4</span><span class="text" id="text4"> Okay</li>
+		<li id="suggestion5"><span class="number">5</span><span class="text" id="text5"> Okay</li>
+		<li id="suggestion6"><span class="number">6</span><span class="text" id="text6"> Okay</li>
+		<li id="suggestion7"><span class="number">7</span><span class="text" id="text7"> Okay</li>
+		<li id="suggestion8"><span class="number">8</span><span class="text" id="text8"> Okay</li>
+	</ul>
+	<form action="" name="form" id="form">
+		<input name="input" id="m" type="text" class="text" autocomplete="off" /><button>Send</button>
+	</form>
 
 
 
-  <script>
+	<script>
+
+		$("#messages").height($(window).height()-$("#form").height());
+
+		window.onresize = function(event) {
+			$("#messages").height($(window).height()-$("#form").height());
+		};
+
+  // --------------- WEB SOCKET ------------------
+  var host = location.origin.replace(/^http/, 'ws')
+	var ws = new WebSocket(host);
+	ws.onmessage = function (event) {
+  console.log(JSON.parse(event.data));
+};
+
+
 
   // --------------- SOCKET MESSAGE SENDING ------------------
 
+  var userId;
+  var lastUserId;
+  var connected;
+  var colorArray = [
+  "rgb(255,255,255)",
+  "rgb(102,255,178)",
+  "rgb(255,178,102)",
+  "rgb(102,178,255)",
+  "rgb(255,102,102)",
+  ]
   var socket = io();
+
+  socket.emit('add user request', null);
+
+  socket.on('login', function (data) {
+  	connected = true;
+  	userId = data.numUsers;
+  	console.log("I am User" + userId);
+  	socket.emit('add user', userId);
+  });
+
+
   $('form').submit(function(){
-    socket.emit('chat message', {text: $('#m').val(), animation: "0"});
-    $('#m').val('');
-    return false;
+  	if ($('#m').val() != "") {
+  		socket.emit('chat message', {user: userId, text: $('#m').val(), animation: "0"});
+  		$('#m').val('');
+  	}
+  	 return false;
   });
 
   socket.on('chat message', function(msg){
-    console.log(msg);
-    //this function edits the inner html to accomodate specific spans
-    console.log(check(msg));
 
-   // console.log('<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>');
+  	if (lastUserId == msg.user) {
+      console.log("BUTTFACE");
+  		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html(check(msg, 1));
+  	} else {
+      console.log("MEANYPANTS");
+  		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html(check(msg, 2));
+  	}
+  	$('#messages').append(newLine);
+  	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
+  	animation(msg.word);
 
-   // var newLine = $('<li>').html('<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>');
-   var newLine = $('<li>').html(check(msg));
-    $('#messages').append(newLine);
-    console.log(String(newLine));
-    animation(msg.word);
+  	lastUserId = msg.user;
   });
-
 
 
   // --------------- CHAT STRUCTURE SPECIFICS ------------------
@@ -208,7 +264,12 @@
   updateSuggestions();
   $("#suggestions").hide();   
 
-  function check(msg) {
+  function check(msg, flag) {
+    if (flag == 1) {
+      test1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    } else {
+      test1 = '<span class="bold">'+ "User"+ msg.user + ": " + '</span>';
+    }
     index = msg.text.search(okayRegex);
     if(index == -1) {
       index = msg.text.search(yesRegex);
@@ -217,7 +278,7 @@
       index = msg.text.search(noRegex);
     }
     if (index != -1) {
-      test1 = "<span>"+msg.text.substring(0, index)+'<span class="'+ msg.word + 'text' + msg.animation + '">';
+      test1 = test1+"<span>"+msg.text.substring(0, index)+'<span class="'+ msg.word + 'text' + msg.animation + '">';
       index2 = msg.text.length;
       for(i = index; i < msg.text.length; i++) {
         if (msg.text.charAt(i) == ' ') {
@@ -228,12 +289,12 @@
       test2 = test1 + msg.text.substring(index, index2)+ "</span>" + msg.text.substring(index2) +"</span>";
       return test2;
     }
-    return '<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>';
+    return test1+'<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>';
   } 
 
 
   $('#m').each(function() {
-   var elem = $(this);
+  	var elem = $(this);
 
      // Save current value of element
      elem.data('oldVal', elem.val());
@@ -242,12 +303,13 @@
      elem.bind("propertychange change click keyup input paste", function(event){
       // If value has changed...
       if (elem.data('oldVal') != elem.val()) {
-        if (currentSuggestion != null && elem.val().search(/[1-8]/) != -1) {
-          var digit = elem.val().slice(-1);
-          socket.emit('chat message', {text: elem.val().substring(0, elem.val().length - 1), animation: digit, word: currentSuggestion});
-          $('#m').val('');
-          $("#suggestions").hide();
-        }
+      	if (currentSuggestion != null && elem.val().search(/[1-8]/) != -1) {
+      		var digit = elem.val().slice(-1);
+      		console.log("user");
+      		socket.emit('chat message', {user: userId, text: elem.val().substring(0, elem.val().length - 1), animation: digit, word: currentSuggestion});
+      		$('#m').val('');
+      		$("#suggestions").hide();
+      	}
       };
 
     // Updated stored value
@@ -265,6 +327,7 @@
       // update the suggestion texts with the proposed message
       $(".text").each(function() {
         $(this).text(elem.val().substring(index, index2));
+
       });
 
       $("#suggestions").show();
@@ -296,7 +359,7 @@
     animation("yes");
 
   } else if (elem.val().search(noRegex) != -1) {
-     index = elem.val().search(noRegex);
+    index = elem.val().search(noRegex);
     currentSuggestion = "no";
     // update the suggestion texts with the proposed message
       index2 = elem.val().length;
@@ -327,83 +390,86 @@
 
 
 function updateSuggestions() {
-  var i;
-  for (i = 1; i <= numSuggestions; i++) {
-    $( "#suggestion" + i).unbind( "click");
+	var i;
+	for (i = 1; i <= numSuggestions; i++) {
+		$( "#suggestion" + i).unbind( "click");
 
-    $("#suggestion" + i).click(function() {
-      socket.emit('chat message', {text: $('#m').val(), animation: $(this).attr('id').charAt(10), word: currentSuggestion});
-      $('#m').val('');
-      $("#suggestions").hide();
-    });
-  }
+		$("#suggestion" + i).click(function() {
+			if ($('#m').val() != "") {
+				socket.emit('chat message', {user: userId, text: $('#m').val(), animation: $(this).attr('id').charAt(10), word: currentSuggestion});
+				$('#m').val('');
+				$("#suggestions").hide();
+			}
+		});
+	}
 }
 
 function animation(word) {
-  var j;
-  for (j = 1; j <= numSuggestions; j++) {
-    $('#text'+j).removeClass().addClass("text");
-  }
+	var j;
+	for (j = 1; j <= numSuggestions; j++) {
+		$('#text'+j).removeClass().addClass("text");
+	}
 
-  if (word == "okay") {
-    $('#text1').addClass("bounce animated infinite");
-    $('#text2').addClass("rubberBand animated slow2 infinite");
-    $('#text3').addClass("flash animated infinite");
-    $('#text4').addClass("flash animated slow5 infinite");
-    $('#text5').addClass("stretchRight slow5 animated infinite");
-    $('#text6').addClass("fadeInLeft slow2 animated infinite");
-    $('#text7').addClass("zoomInDown animated slow2 infinite");
-    $('#text8').addClass("rattle animated infinite");
+	if (word == "okay") {
+		$('#text1').addClass("bounce animated infinite");
+		$('#text2').addClass("rubberBand animated slow2 infinite");
+		$('#text3').addClass("flash animated infinite");
+		$('#text4').addClass("flash animated slow5 infinite");
+		$('#text5').addClass("stretchRight slow5 animated infinite");
+		$('#text6').addClass("fadeInLeft slow2 animated infinite");
+		$('#text7').addClass("zoomInDown animated slow2 infinite");
+		$('#text8').addClass("rattle animated infinite");
 
-    $('.okaytext1').addClass("bounce animated infinite");
-    $('.okaytext2').addClass("rubberBand animated slow2 infinite");
-    $('.okaytext3').addClass("flash animated infinite");
-    $('.okaytext4').addClass("flash animated slow5 infinite");
-    $('.okaytext5').addClass("stretchRight slow5 animated infinite");
-    $('.okaytext6').addClass("fadeInLeft slow2 animated infinite");
-    $('.okaytext7').addClass("zoomInDown animated slow2 infinite");
-    $('.okaytext8').addClass("rattle animated infinite");
+		$('.okaytext1').addClass("bounce animated infinite");
+		$('.okaytext2').addClass("rubberBand animated slow2 infinite");
+		$('.okaytext3').addClass("flash animated infinite");
+		$('.okaytext4').addClass("flash animated slow5 infinite");
+		$('.okaytext5').addClass("stretchRight slow5 animated infinite");
+		$('.okaytext6').addClass("fadeInLeft slow2 animated infinite");
+		$('.okaytext7').addClass("zoomInDown animated slow2 infinite");
+		$('.okaytext8').addClass("rattle animated infinite");
 
-  } else if (word == "yes") {
+	} else if (word == "yes") {
 
-    $('#text1').addClass("bounce animated infinite");
-    $('#text2').addClass("rubberBand animated slow2 infinite");
-    $('#text3').addClass("flash animated infinite");
-    $('#text4').addClass("flash animated slow5 infinite");
-    $('#text5').addClass("stretchRight slow5 animated infinite");
-    $('#text6').addClass("fadeInLeft slow2 animated infinite");
-    $('#text7').addClass("rattle animated infinite");
-    $('#text8').addClass("zoomInDown animated slow2 infinite");
+		$('#text1').addClass("bounce animated infinite");
+		$('#text2').addClass("rattle animated infinite");
+		$('#text3').addClass("shake fast1 animated infinite");
+		$('#text4').addClass("flash animated infinite");
+		$('#text5').addClass("tada animated infinite");
+		$('#text6').addClass("slideInUp animated infinite");
+		$('#text7').addClass("fadeInLeft slow2 animated infinite");
+		$('#text8').addClass("stretchRight slow5 animated infinite");
 
-    $('.yestext1').addClass("bounce animated infinite");
-    $('.yestext2').addClass("rubberBand animated slow2 infinite");
-    $('.yestext3').addClass("flash animated infinite");
-    $('.yestext4').addClass("flash animated slow5 infinite");
-    $('.yestext5').addClass("stretchRight slow5 animated infinite");
-    $('.yestext6').addClass("fadeInLeft slow2 animated infinite");
-    $('.yestext7').addClass("rattle animated infinite");
-    $('.yestext8').addClass("zoomInDown animated slow2 infinite");
+		$('.yestext1').addClass("bounce animated infinite");
+		$('.yestext2').addClass("rattle animated infinite");
+		$('.yestext3').addClass("shake fast1 animated infinite");
+		$('.yestext4').addClass("flash animated infinite");
+		$('.yestext5').addClass("tada animated infinite");
+		$('.yestext6').addClass("slideInUp animated infinite");
+		$('.yestext7').addClass("fadeInLeft slow2 animated infinite");
+		$('.yestext8').addClass("stretchRight slow5 animated infinite");
 
-  } else if (word == "no") {
 
-    $('#text1').addClass("bounce animated infinite");
-    $('#text2').addClass("rubberBand animated slow2 infinite");
-    $('#text3').addClass("flash animated infinite");
-    $('#text4').addClass("flash animated slow5 infinite");
-    $('#text5').addClass("stretchRight slow5 animated infinite");
-    $('#text6').addClass("fadeInLeft slow2 animated infinite");
-    $('#text7').addClass("rattle animated infinite");
-    $('#text8').addClass("zoomInDown animated slow2 infinite");
+	} else if (word == "no") {
 
-    $('.notext1').addClass("bounce animated infinite");
-    $('.notext2').addClass("rubberBand animated slow2 infinite");
-    $('.notext3').addClass("flash animated infinite");
-    $('.notext4').addClass("flash animated slow5 infinite");
-    $('.notext5').addClass("stretchRight slow5 animated infinite");
-    $('.notext6').addClass("fadeInLeft slow2 animated infinite");
-    $('.notext7').addClass("rattle animated infinite");
-    $('.notext8').addClass("zoomInDown animated slow2 infinite");
-  }
+		$('#text1').addClass("bounce animated infinite");
+		$('#text2').addClass("rattle animated infinite");
+		$('#text3').addClass("shake fast1 animated infinite");
+		$('#text4').addClass("shake slow3 animated infinite");
+		$('#text5').addClass("flash animated infinite");
+		$('#text6').addClass("zoomIn slow3 animated infinite");
+		$('#text7').addClass("fadeInLeft slow2 animated infinite");
+		$('#text8').addClass("stretchRight slow5 animated infinite");
+
+		$('.notext1').addClass("bounce animated infinite");
+		$('.notext2').addClass("rattle animated infinite");
+		$('.notext3').addClass("shake fast1 animated infinite");
+		$('.notext4').addClass("shake slow3 infinite");
+		$('.notext5').addClass("flash animated infinite");
+		$('.notext6').addClass("zoomIn slow3 animated infinite");
+		$('.notext7').addClass("fadeInLeft slow2 animated infinite");
+		$('.notext8').addClass("stretchRight slow5 animated infinite");
+	}
 }
 
 </script>
