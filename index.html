@@ -183,8 +183,15 @@
 
   socket.on('chat message', function(msg){
     console.log(msg);
-    var newLine = $('<li>').html('<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>');
+    //this function edits the inner html to accomodate specific spans
+    console.log(check(msg));
+
+   // console.log('<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>');
+
+   // var newLine = $('<li>').html('<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>');
+   var newLine = $('<li>').html(check(msg));
     $('#messages').append(newLine);
+    console.log(String(newLine));
     animation(msg.word);
   });
 
@@ -199,7 +206,30 @@
   var currentSuggestion = null;
 
   updateSuggestions();
-  $("#suggestions").hide();    
+  $("#suggestions").hide();   
+
+  function check(msg) {
+    index = msg.text.search(okayRegex);
+    if(index == -1) {
+      index = msg.text.search(yesRegex);
+    }
+    if(index == -1) {
+      index = msg.text.search(noRegex);
+    }
+    if (index != -1) {
+      test1 = "<span>"+msg.text.substring(0, index)+'<span class="'+ msg.word + 'text' + msg.animation + '">';
+      index2 = msg.text.length;
+      for(i = index; i < msg.text.length; i++) {
+        if (msg.text.charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
+      test2 = test1 + msg.text.substring(index, index2)+ "</span>" + msg.text.substring(index2) +"</span>";
+      return test2;
+    }
+    return '<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>';
+  } 
 
 
   $('#m').each(function() {
@@ -221,27 +251,42 @@
       };
 
     // Updated stored value
-    console.log("input field changed");
     elem.data('oldVal', elem.val());
-
+    index = elem.val().search(okayRegex);
     if (elem.val().search(okayRegex) != -1) {
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
       currentSuggestion = "okay";
       // update the suggestion texts with the proposed message
       $(".text").each(function() {
-        $(this).text(elem.val());
+        $(this).text(elem.val().substring(index, index2));
       });
 
       $("#suggestions").show();
 
       console.log(elem.val());
       updateSuggestions();
-      animation("okay");
+      animation("okay"); 
 
     } else if (elem.val().search(yesRegex) != -1) {
       currentSuggestion = "yes";
+      index = elem.val().search(yesRegex);
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        console.log(elem.val().charAt(i));
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
     // update the suggestion texts with the proposed message
     $(".text").each(function() {
-      $(this).text(elem.val());
+      $(this).text(elem.val().substring(index, index2));
     });
 
     $("#suggestions").show();
@@ -251,10 +296,19 @@
     animation("yes");
 
   } else if (elem.val().search(noRegex) != -1) {
+     index = elem.val().search(noRegex);
     currentSuggestion = "no";
     // update the suggestion texts with the proposed message
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        console.log(elem.val().charAt(i));
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
     $(".text").each(function() {
-      $(this).text(elem.val());
+      $(this).text(elem.val().substring(index, index2));
     });
 
     $("#suggestions").show();
