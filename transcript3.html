@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+	<title>Kinetic Chat</title>
+
+
+	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://anijs.github.io/lib/anicollection/anicollection.css"></script>
+
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font: 16px Helvetica, Arial; }
+		form { background: #ddd; padding: 2px; position: fixed; bottom: 0; width: 100%; height: 50px;}
+		form input { border: 0; padding: 10px; width: 90%; font-size:16px; height:44px;}
+		form button { color: white; font-weight: bold; width: 10%; background: rgb(0, 174, 226); border: none; padding: 10px; font-size: 16px; height: 44px;}
+		#messages { list-style-type: none; margin: 0; padding: 0; overflow:auto;}
+		#messages li { padding: 20px 30px; height: 60px; }
+
+
+		#suggestions {
+			position: fixed;
+			bottom: 47px;
+			width: 100%;
+		}
+
+		#suggestions li {
+			background: #eee;
+			position: relative;
+			float:left;
+			list-style: none;
+			border: 3px #ddd solid;
+			padding: 10px 10px;
+			min-width: 12.5%;
+			height: 44px;
+		}
+
+		.smallerMsg {
+			padding: 0px 30px 10px 50px !important;
+			height: 40px !important;
+		}
+
+		.text {
+			display: inline-block;
+			padding: 0px 0px 0px 30px;
+		}
+
+		.number {
+			font-size:10px;
+			font-weight: bold;
+		}
+
+		.bold {
+			font-weight: bold;
+		}
+
+		/* ---------------- ANIMATIONS ---------------------- */
+
+
+    /*
+    ==============================================
+    base code
+    ==============================================
+    */
+
+    .slow5{
+    	-webkit-animation-duration: 5s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .slow2 {
+    	-webkit-animation-duration: 2s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .slow3 {
+    	-webkit-animation-duration: 4s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast1 {
+    	-webkit-animation-duration: 0.6s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast2 {
+    	-webkit-animation-duration: 1s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .infinite {
+    	-webkit-animation-iteration-count: infinite;
+    	animation-iteration-count: infinite;
+    }
+
+    .hinge {
+    	-webkit-animation-duration: 2s;
+    	animation-duration: 2s;
+    }
+
+
+    /*
+    ==============================================
+    rattle
+    ==============================================
+    */
+    .rattle {
+    	-webkit-animation: rattle 0.08s infinite;
+    }
+
+    @-webkit-keyframes rattle {
+    	0% {
+    		-webkit-transform: translateX(-1px); 
+    	}
+
+    	25% {
+    		-webkit-transform: translateY(-1px) rotate(-3deg);
+    	}
+
+    	50% {
+    		-webkit-transform: translateX(1px);
+    	}
+
+    	100% {
+    		-webkit-transform: translateY(-1px)  rotate(3deg);
+    	}
+    }
+
+    /*
+    ==============================================
+    stretchRight
+    ==============================================
+    */
+    .stretchRight{
+    	animation-name: stretchRight;
+    	-webkit-animation-name: stretchRight; 
+
+    	animation-timing-function: linear;  
+    	-webkit-animation-timing-function: linear;  
+    }
+
+
+    @-webkit-keyframes stretchRight {
+    	0% {
+    		-webkit-transform: scaleX(1);
+    	}
+    	25% {
+    		-webkit-transform: scaleX(1.25);
+    	}
+    	50% {
+    		-webkit-transform: scaleX(1.5);
+    	}
+    	75% {
+    		-webkit-transform: scaleX(1.75);
+    	}
+    	100% {
+    		-webkit-transform: scaleX(2);
+    	} 
+
+    }
+
+  </style>
+
+</head>
+<body OnLoad="document.form.input.focus();">
+
+	<ul id="messages">
+        <li style="background:rgb(255,255,255)"><span class="bold">Trisha: </span><span class="undefinedtext0">Ready to go out?</span></li>
+        <li style="background:rgb(153,255,204)"><span class="bold">Sarah: </span><span><span class="yestext2 rattle animated infinite">YES</span></span></li>
+        <li style="background:rgb(255,255,255)"><span class="bold">Trisha: </span><span class="undefinedtext0">haha heard you pulled an all nighter last night</span></li>
+        <li style="background:rgb(153,255,204)"><span class="bold">Sarah: </span><span><span class="yestext1 bounce animated infinite">Yep.</span> Who told you?</span></li>
+        <li style="background:rgb(255,255,255)"><span class="bold">Trisha: </span><span class="undefinedtext0">Harry</span></li>
+        <li class="smallerMsg" style="background:rgb(255,255,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">Anyways...drinks, the Patio?</span></li>
+
+        <li style="background:rgb(153,255,204)"><span class="bold">Sarah: </span><span><span class="notext4 shake slow3 infinite">Noo.</span> Why not your place? The patio is full of creepy old dudes</span></li>
+        <li class="smallerMsg" style="background:rgb(153,255,204)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">besides, you can invite Steve</span></li>
+        <li style="background:rgb(255,255,255)"><span class="bold">Trisha: </span><span><span class="notext3 shake fast1 animated infinite">NOOOOO</span></span></li>
+        <li class="smallerMsg" style="background:rgb(255,255,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">we can't! I'll just be super nervous all night!</span></li>
+        <li style="background:rgb(153,255,204)"><span class="bold">Sarah: </span><span>Ahh <span class="okaytext6 stretchRight slow5 animated infinite">okay</span></span></li>
+        <li class="smallerMsg" style="background:rgb(153,255,204)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">then let's just go to treehouse and get a pitcher</span></li>
+        <li class="smallerMsg" style="background:rgb(153,255,204)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">and then straight to bed for me. I'm running on 0 hours</span></li>
+        <li style="background:rgb(255,255,255)"><span class="bold">Trisha: </span><span><span class="okaytext5 flash animated slow5 infinite">kay</span></span></li>
+        <li class="smallerMsg" style="background:rgb(255,255,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">chill night it is</span></li>
+    </ul>
+</body>
+</html>
