@@ -174,8 +174,6 @@
 		<li id="suggestion4"><span class="number">4</span><span class="text" id="text4"> Okay</li>
 		<li id="suggestion5"><span class="number">5</span><span class="text" id="text5"> Okay</li>
 		<li id="suggestion6"><span class="number">6</span><span class="text" id="text6"> Okay</li>
-		<li id="suggestion7"><span class="number">7</span><span class="text" id="text7"> Okay</li>
-		<li id="suggestion8"><span class="number">8</span><span class="text" id="text8"> Okay</li>
 	</ul>
 	<form action="" name="form" id="form">
 		<input name="input" id="m" type="text" class="text" autocomplete="off" /><button>Send</button>
@@ -226,7 +224,7 @@ $(window).on("beforeunload", function() {
 
   socket.on('login', function (data) {
   	connected = true;
-  	userId = data.numUsers
+  	userId = data.numUsers;
   	console.log("I am User" + userId);
   	socket.emit('add user', userId);
   });
@@ -240,18 +238,18 @@ $(window).on("beforeunload", function() {
   	 return false;
   });
 
-socket.on('chat message', function(msg){
-	if (lastUserId == msg.user) {
-		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user % 10] + '">').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="' + msg.word + 'text' + msg.animation + '">&nbsp;&nbsp;&nbsp;' + msg.text + '</span></li>');
-	} else {
-		newLine = $('<li style="background:' + colorArray[msg.user % 10] + '">').html('<span class="bold">'+ "User"+ msg.user + ": " + '&nbsp;&nbsp;&nbsp;</span><span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span></li>');
-	}
-	$('#messages').append(newLine);
-	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
-	animation(msg.word);
+  socket.on('chat message', function(msg){
+  	if (lastUserId == msg.user) {
+  		newLine = $('<li class="smallerMsg" style="background:' + colorArray[msg.user] + '">').html(check(msg, 1));
+  	} else {
+  		newLine = $('<li style="background:' + colorArray[msg.user] + '">').html(check(msg, 2));
+  	}
+  	$('#messages').append(newLine);
+  	$("#messages").animate({ scrollTop: $('#messages')[0].scrollHeight}, 1000);
+  	animation(msg.word);
 
-	lastUserId = msg.user;
-});
+  	lastUserId = msg.user;
+  });
 
 
   // --------------- CHAT STRUCTURE SPECIFICS ------------------
@@ -263,7 +261,35 @@ socket.on('chat message', function(msg){
   var currentSuggestion = null;
 
   updateSuggestions();
-  $("#suggestions").hide();    
+  $("#suggestions").hide();   
+
+  function check(msg, flag) {
+    if (flag == 1) {
+      test1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    } else {
+      test1 = '<span class="bold">'+ "User"+ msg.user + ": " + '</span>';
+    }
+    index = msg.text.search(okayRegex);
+    if(index == -1) {
+      index = msg.text.search(yesRegex);
+    }
+    if(index == -1) {
+      index = msg.text.search(noRegex);
+    }
+    if (index != -1) {
+      test1 = test1+"<span>"+msg.text.substring(0, index)+'<span class="'+ msg.word + 'text' + msg.animation + '">';
+      index2 = msg.text.length;
+      for(i = index; i < msg.text.length; i++) {
+        if (msg.text.charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
+      test2 = test1 + msg.text.substring(index, index2)+ "</span>" + msg.text.substring(index2) +"</span>";
+      return test2;
+    }
+    return test1+'<span class="' + msg.word + 'text' + msg.animation + '">' + msg.text + '</span>';
+  } 
 
 
   $('#m').each(function() {
@@ -286,24 +312,41 @@ socket.on('chat message', function(msg){
 
     // Updated stored value
     elem.data('oldVal', elem.val());
-
+    index = elem.val().search(okayRegex);
     if (elem.val().search(okayRegex) != -1) {
-    	currentSuggestion = "okay";
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
+      currentSuggestion = "okay";
       // update the suggestion texts with the proposed message
       $(".text").each(function() {
-      	$(this).text(elem.val());
+        $(this).text(elem.val().substring(index, index2));
+
       });
 
       $("#suggestions").show();
 
       updateSuggestions();
-      animation("okay");
+      animation("okay"); 
 
     } else if (elem.val().search(yesRegex) != -1) {
-    	currentSuggestion = "yes";
+      currentSuggestion = "yes";
+      index = elem.val().search(yesRegex);
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        console.log(elem.val().charAt(i));
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
     // update the suggestion texts with the proposed message
     $(".text").each(function() {
-    	$(this).text(elem.val());
+      $(this).text(elem.val().substring(index, index2));
     });
 
     $("#suggestions").show();
@@ -311,10 +354,19 @@ socket.on('chat message', function(msg){
     animation("yes");
 
   } else if (elem.val().search(noRegex) != -1) {
-  	currentSuggestion = "no";
+    index = elem.val().search(noRegex);
+    currentSuggestion = "no";
     // update the suggestion texts with the proposed message
+      index2 = elem.val().length;
+      for(i = index; i < elem.val().length; i++) {
+        console.log(elem.val().charAt(i));
+        if (elem.val().charAt(i) == ' ') {
+            index2 = i;
+            break;
+        }
+      }
     $(".text").each(function() {
-    	$(this).text(elem.val());
+      $(this).text(elem.val().substring(index, index2));
     });
 
     $("#suggestions").show();
@@ -353,22 +405,18 @@ function animation(word) {
 
 	if (word == "okay") {
 		$('#text1').addClass("bounce animated infinite");
-		$('#text2').addClass("rubberBand animated slow2 infinite");
-		$('#text3').addClass("flash animated infinite");
-		$('#text4').addClass("flash animated slow5 infinite");
-		$('#text5').addClass("stretchRight slow5 animated infinite");
-		$('#text6').addClass("fadeInLeft slow2 animated infinite");
-		$('#text7').addClass("zoomInDown animated slow2 infinite");
-		$('#text8').addClass("rattle animated infinite");
+    $('#text2').addClass("rattle animated infinite");
+		$('#text3').addClass("rubberBand animated slow2 infinite");
+		$('#text4').addClass("flash animated infinite");
+		$('#text5').addClass("flash animated slow5 infinite");
+		$('#text6').addClass("stretchRight slow5 animated infinite");
 
 		$('.okaytext1').addClass("bounce animated infinite");
-		$('.okaytext2').addClass("rubberBand animated slow2 infinite");
-		$('.okaytext3').addClass("flash animated infinite");
-		$('.okaytext4').addClass("flash animated slow5 infinite");
-		$('.okaytext5').addClass("stretchRight slow5 animated infinite");
-		$('.okaytext6').addClass("fadeInLeft slow2 animated infinite");
-		$('.okaytext7').addClass("zoomInDown animated slow2 infinite");
-		$('.okaytext8').addClass("rattle animated infinite");
+    $('.okaytext2').addClass("rattle animated infinite");
+		$('.okaytext3').addClass("rubberBand animated slow2 infinite");
+		$('.okaytext4').addClass("flash animated infinite");
+		$('.okaytext5').addClass("flash animated slow5 infinite");
+		$('.okaytext6').addClass("stretchRight slow5 animated infinite");
 
 	} else if (word == "yes") {
 
@@ -377,18 +425,14 @@ function animation(word) {
 		$('#text3').addClass("shake fast1 animated infinite");
 		$('#text4').addClass("flash animated infinite");
 		$('#text5').addClass("tada animated infinite");
-		$('#text6').addClass("slideInUp animated infinite");
-		$('#text7').addClass("fadeInLeft slow2 animated infinite");
-		$('#text8').addClass("stretchRight slow5 animated infinite");
+		$('#text6').addClass("stretchRight slow5 animated infinite");
 
 		$('.yestext1').addClass("bounce animated infinite");
 		$('.yestext2').addClass("rattle animated infinite");
 		$('.yestext3').addClass("shake fast1 animated infinite");
 		$('.yestext4').addClass("flash animated infinite");
 		$('.yestext5').addClass("tada animated infinite");
-		$('.yestext6').addClass("slideInUp animated infinite");
-		$('.yestext7').addClass("fadeInLeft slow2 animated infinite");
-		$('.yestext8').addClass("stretchRight slow5 animated infinite");
+		$('.yestext6').addClass("stretchRight slow5 animated infinite");
 
 
 	} else if (word == "no") {
@@ -398,18 +442,14 @@ function animation(word) {
 		$('#text3').addClass("shake fast1 animated infinite");
 		$('#text4').addClass("shake slow3 animated infinite");
 		$('#text5').addClass("flash animated infinite");
-		$('#text6').addClass("zoomIn slow3 animated infinite");
-		$('#text7').addClass("fadeInLeft slow2 animated infinite");
-		$('#text8').addClass("stretchRight slow5 animated infinite");
+		$('#text6').addClass("stretchRight slow5 animated infinite");
 
 		$('.notext1').addClass("bounce animated infinite");
 		$('.notext2').addClass("rattle animated infinite");
 		$('.notext3').addClass("shake fast1 animated infinite");
 		$('.notext4').addClass("shake slow3 infinite");
 		$('.notext5').addClass("flash animated infinite");
-		$('.notext6').addClass("zoomIn slow3 animated infinite");
-		$('.notext7').addClass("fadeInLeft slow2 animated infinite");
-		$('.notext8').addClass("stretchRight slow5 animated infinite");
+		$('.notext6').addClass("stretchRight slow5 animated infinite");
 	}
 }
 
