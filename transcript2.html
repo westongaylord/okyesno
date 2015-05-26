@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+	<title>Kinetic Chat</title>
+
+
+	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
+	
+	<link rel="stylesheet" type="text/css" href="https://anijs.github.io/lib/anicollection/anicollection.css"></script>
+
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font: 16px Helvetica, Arial; }
+		form { background: #ddd; padding: 2px; position: fixed; bottom: 0; width: 100%; height: 50px;}
+		form input { border: 0; padding: 10px; width: 90%; font-size:16px; height:44px;}
+		form button { color: white; font-weight: bold; width: 10%; background: rgb(0, 174, 226); border: none; padding: 10px; font-size: 16px; height: 44px;}
+		#messages { list-style-type: none; margin: 0; padding: 0; overflow:auto;}
+		#messages li { padding: 20px 30px; height: 60px; }
+
+
+		#suggestions {
+			position: fixed;
+			bottom: 47px;
+			width: 100%;
+		}
+
+		#suggestions li {
+			background: #eee;
+			position: relative;
+			float:left;
+			list-style: none;
+			border: 3px #ddd solid;
+			padding: 10px 10px;
+			min-width: 12.5%;
+			height: 44px;
+		}
+
+		.smallerMsg {
+			padding: 0px 30px 10px 50px !important;
+			height: 40px !important;
+		}
+
+		.text {
+			display: inline-block;
+			padding: 0px 0px 0px 30px;
+		}
+
+		.number {
+			font-size:10px;
+			font-weight: bold;
+		}
+
+		.bold {
+			font-weight: bold;
+		}
+
+		/* ---------------- ANIMATIONS ---------------------- */
+
+
+    /*
+    ==============================================
+    base code
+    ==============================================
+    */
+
+    .slow5{
+    	-webkit-animation-duration: 5s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .slow2 {
+    	-webkit-animation-duration: 2s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .slow3 {
+    	-webkit-animation-duration: 4s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast1 {
+    	-webkit-animation-duration: 0.6s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .fast2 {
+    	-webkit-animation-duration: 1s;
+    	-webkit-animation-fill-mode: both;
+    }
+
+    .infinite {
+    	-webkit-animation-iteration-count: infinite;
+    	animation-iteration-count: infinite;
+    }
+
+    .hinge {
+    	-webkit-animation-duration: 2s;
+    	animation-duration: 2s;
+    }
+
+
+    /*
+    ==============================================
+    rattle
+    ==============================================
+    */
+    .rattle {
+    	-webkit-animation: rattle 0.08s infinite;
+    }
+
+    @-webkit-keyframes rattle {
+    	0% {
+    		-webkit-transform: translateX(-1px); 
+    	}
+
+    	25% {
+    		-webkit-transform: translateY(-1px) rotate(-3deg);
+    	}
+
+    	50% {
+    		-webkit-transform: translateX(1px);
+    	}
+
+    	100% {
+    		-webkit-transform: translateY(-1px)  rotate(3deg);
+    	}
+    }
+
+    /*
+    ==============================================
+    stretchRight
+    ==============================================
+    */
+    .stretchRight{
+    	animation-name: stretchRight;
+    	-webkit-animation-name: stretchRight; 
+
+    	animation-timing-function: linear;  
+    	-webkit-animation-timing-function: linear;  
+    }
+
+
+    @-webkit-keyframes stretchRight {
+    	0% {
+    		-webkit-transform: scaleX(1);
+    	}
+    	25% {
+    		-webkit-transform: scaleX(1.25);
+    	}
+    	50% {
+    		-webkit-transform: scaleX(1.5);
+    	}
+    	75% {
+    		-webkit-transform: scaleX(1.75);
+    	}
+    	100% {
+    		-webkit-transform: scaleX(2);
+    	} 
+
+    }
+
+  </style>
+
+</head>
+<body OnLoad="document.form.input.focus();">
+
+	<ul id="messages">
+
+		<li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Hey are you coming to the party on Saturday?</span></li>
+        <li class="smallerMsg" style="background:rgb(153,204,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;Aliceeeeee</span></li>
+        <li class="smallerMsg" style="background:rgb(153,204,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;Hellooooo</span></li>
+        <li class="smallerMsg" style="background:rgb(153,204,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;Hey Aliceeeeeee</span></li>
+        <li style="background:rgb(153,255,204"><span class="bold">Alice: &nbsp;&nbsp;&nbsp;</span><span class="yestext6 stretchRight slow5 animated infinite">Yeaaa</span></li>
+        <li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Party this Saturday. It's at my house. Can you make it?</span></li>
+        <li style="background:rgb(153,255,204"><span class="bold">Alice: &nbsp;&nbsp;&nbsp;</span><span class="notext1 bounce animated infinite">No </span></li>
+        <li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Are you messing with me? Come on it'll be so much fun</span></li>
+        <li style="background:rgb(153,255,204"><span class="bold">Alice: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Fine I'll go.</span></li>
+        <li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">You're coming?!</span></li>
+        <li style="background:rgb(153,255,204"><span class="bold">Alice: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">I'll come if Grace can come too</span></li>
+        <li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="okaytext3 rubberBand animated slow2 infinite">Okayy</span></li>
+        <li class="smallerMsg" style="background:rgb(153,204,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;But you know Jacob and Grace are mad at each other right</span></li>
+        <li style="background:rgb(153,255,204"><span class="bold">Alice: &nbsp;&nbsp;&nbsp;</span><span class="yestext5 tada animated infinite">Yeaaa</span></li>
+        <li class="smallerMsg" style="background:rgb(153,255,204">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;But I'm not going if Grace doesn't go</span></li>
+        <li class="smallerMsg" style="background:rgb(153,255,204">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;And you know that it's Jacob's fault so don't even try</span></li>
+        <li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="okaytext4 flash animated infinite">Okay</span></li>
+        <li class="smallerMsg" style="background:rgb(153,204,255)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="undefinedtext0">&nbsp;&nbsp;&nbsp;I get it. You can both come</span></li>
+
+
+		<li class="smallerMsg" style="background:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<li>
+
+			<li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Yo Grace is coming to the party</span></li>
+
+
+			<li style="background:white"><span class="bold">Jacob: &nbsp;&nbsp;&nbsp;</span><span class="notext2 rattle animated infinite">Noooooo</span></li>
+
+
+			<li style="background:rgb(153,204,255)"><span class="bold">John: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Alice is only coming if Grace comes...</span></li>
+
+
+			<li style="background:white"><span class="bold">Jacob: &nbsp;&nbsp;&nbsp;</span><span class="undefinedtext0">Fine but I'm not talking to her</span></li>
+
+
+		</ul>
+	</body>
+
+</html>

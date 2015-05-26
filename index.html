@@ -256,8 +256,8 @@ socket.on('chat message', function(msg){
 
   // --------------- CHAT STRUCTURE SPECIFICS ------------------
 
-  var okayRegex = /\b(o*k+(a+y+)?)|(a+l+r+i+g+h+t+)\b\s*/i;
-  var yesRegex = /\b(y+e+|y+a+)(p+|s+|(a*h*))|(r+i+g+h+t+)\b\s*/i;
+  var okayRegex = /\b(o*k+(a+y+)?)\b\s*/i;
+  var yesRegex = /\b(y+e+|y+a+)(p+|s+|(a*h*))\b\s*/i;
   var noRegex = /\bn+a+(h+|w+)|n+o+(p+e+)?\b\s*/i;
   var numSuggestions = 8;
   var currentSuggestion = null;
