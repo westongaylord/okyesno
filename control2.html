@@ -6,12 +6,6 @@
 
 	<script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript" src="https://rawgit.com/davatron5000/Lettering.js/master/jquery.lettering.js"></script>
-	<script type="text/javascript" src="https://rawgit.com/jschr/textillate/master/jquery.textillate.js"></script>
-	
-	<link rel="stylesheet" type="text/css" href="https://rawgit.com/daneden/animate.css/master/animate.min.css"></script>
-	
-	<link rel="stylesheet" type="text/css" href="https://anijs.github.io/lib/anicollection/anicollection.css"></script>
 
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
@@ -58,111 +52,6 @@
 		.bold {
 			font-weight: bold;
 		}
-
-		/* ---------------- ANIMATIONS ---------------------- */
-
-
-    /*
-    ==============================================
-    base code
-    ==============================================
-    */
-
-    .slow5{
-    	-webkit-animation-duration: 5s;
-    	-webkit-animation-fill-mode: both;
-    }
-
-    .slow2 {
-    	-webkit-animation-duration: 2s;
-    	-webkit-animation-fill-mode: both;
-    }
-
-    .slow3 {
-    	-webkit-animation-duration: 4s;
-    	-webkit-animation-fill-mode: both;
-    }
-
-    .fast1 {
-    	-webkit-animation-duration: 0.6s;
-    	-webkit-animation-fill-mode: both;
-    }
-
-    .fast2 {
-    	-webkit-animation-duration: 1s;
-    	-webkit-animation-fill-mode: both;
-    }
-
-    .infinite {
-    	-webkit-animation-iteration-count: infinite;
-    	animation-iteration-count: infinite;
-    }
-
-    .hinge {
-    	-webkit-animation-duration: 2s;
-    	animation-duration: 2s;
-    }
-
-
-    /*
-    ==============================================
-    rattle
-    ==============================================
-    */
-    .rattle {
-    	-webkit-animation: rattle 0.08s infinite;
-    }
-
-    @-webkit-keyframes rattle {
-    	0% {
-    		-webkit-transform: translateX(-1px); 
-    	}
-
-    	25% {
-    		-webkit-transform: translateY(-1px) rotate(-3deg);
-    	}
-
-    	50% {
-    		-webkit-transform: translateX(1px);
-    	}
-
-    	100% {
-    		-webkit-transform: translateY(-1px)  rotate(3deg);
-    	}
-    }
-
-    /*
-    ==============================================
-    stretchRight
-    ==============================================
-    */
-    .stretchRight{
-    	animation-name: stretchRight;
-    	-webkit-animation-name: stretchRight; 
-
-    	animation-timing-function: linear;  
-    	-webkit-animation-timing-function: linear;  
-    }
-
-
-    @-webkit-keyframes stretchRight {
-    	0% {
-    		-webkit-transform: scaleX(1);
-    	}
-    	25% {
-    		-webkit-transform: scaleX(1.25);
-    	}
-    	50% {
-    		-webkit-transform: scaleX(1.5);
-    	}
-    	75% {
-    		-webkit-transform: scaleX(1.75);
-    	}
-    	100% {
-    		-webkit-transform: scaleX(2);
-    	} 
-
-    }
 
   </style>
 
